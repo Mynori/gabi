@@ -1,20 +1,34 @@
+##
+## gabi 
+## 2020
+##
+
 CC			= gcc
 CFLAGS		= -Werror -Wall -Wextra -Wpedantic -pedantic -Iinclude/
 
 VPATH		:= src
 OBJDIR		= obj
+UTILSOBJDIR = utilities
 
 $(OBJDIR)/%.o: %.c
-	mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-SRCS		= main.c
+SRCS		= 	tokenManager.c 			\
+				utilities/getNextLine.c	\
+				utilities/charThings.c	\
+				main.c
+
 OBJS		= $(SRCS:%.c=$(OBJDIR)/%.o)
+
 NAME		= gabi
 
 $(NAME):	all
 
-all:	$(OBJS)
+createObjDir:
+	mkdir -p $(OBJDIR)
+	mkdir -p $(OBJDIR)/$(UTILSOBJDIR)
+
+all:	createObjDir	$(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 clean:
